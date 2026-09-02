@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار اللغة الفرنسية المتقدم - Hany Elshahat</title>
+    
+    <!-- ============================================ -->
+    <!-- حقوق الملكية © 2026 Hany Elshahat. جميع الحقوق محفوظة. -->
+    <!-- ============================================ -->
+    
+    <!-- الخطوط والأيقونات -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- مكتبة التشفير -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Cairo', 'Segoe UI', sans-serif;
+            background: linear-gradient(145deg, #e9edf5 0%, #d5dde8 100%);
+            color: #1a2634;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            direction: rtl;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 35px 30px 25px;
+            border-radius: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            width: 100%;
+            max-width: 620px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+        h2 {
+            font-weight: 900;
+            font-size: 28px;
+            background: linear-gradient(135deg, #1a2634, #2d7aff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+            cursor: default;
+            user-select: none;
+        }
+        .sub {
+            color: #5e6f88;
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 20px;
+            border-bottom: 2px dashed #dce1e8;
+            padding-bottom: 15px;
+        }
+        .price-tag {
+            background: linear-gradient(145deg, #fff5f5, #ffe8e8);
+            padding: 14px 20px;
+            border-radius: 60px;
+            font-size: 22px;
+            font-weight: 900;
+            color: #c0392b;
+            display: inline-block;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 10px;
+        }
+        .price-tag i { margin-left: 12px; }
+        
+        .whatsapp-btn {
+            display: inline-block;
+            background: #25d366;
+            color: white;
+            padding: 14px 35px;
+            border-radius: 60px;
+            text-decoration: none;
+            font-weight: 700;
+            margin: 15px 0 20px;
+            transition: 0.25s;
+            font-size: 16px;
+            box-shadow: 0 8px 15px rgba(37, 211, 102, 0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .whatsapp-btn:hover { 
+            background: #1da851; 
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 20px rgba(37, 211, 102, 0.4);
+        }
+        .whatsapp-btn i { margin-left: 12px; }
+
+        hr { border: none; border-top: 2px dashed #dce1e8; margin: 25px 0; }
+
+        .input-group {
+            position: relative;
+            width: 100%;
+            margin: 12px 0;
+        }
+        .input-group i {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #99aabb;
+            font-size: 18px;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 16px 50px 16px 20px;
+            border: 2px solid #e2e9f2;
+            border-radius: 60px;
+            font-size: 16px;
+            text-align: right;
+            transition: 0.25s;
+            background: #f8fafc;
+            font-family: 'Cairo', sans-serif;
+        }
+        input:focus {
+            border-color: #2d7aff;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(45, 122, 255, 0.15);
+            background: #ffffff;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #2d7aff, #1a5fd0);
+            color: white;
+            border: none;
+            padding: 16px 20px;
+            font-size: 16px;
+            font-weight: 800;
+            border-radius: 60px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: 0.25s;
+            box-shadow: 0 8px 20px rgba(45, 122, 255, 0.3);
+            font-family: 'Cairo', sans-serif;
+            letter-spacing: 0.5px;
+        }
+        .btn:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 12px 25px rgba(45, 122, 255, 0.4);
+        }
+        .btn-success { 
+            background: linear-gradient(135deg, #27ae60, #1e8a4b);
+            box-shadow: 0 8px 20px rgba(39, 174, 96, 0.3);
+        }
+        .btn-success:hover {
+            box-shadow: 0 12px 25px rgba(39, 174, 96, 0.4);
+        }
+        .btn-danger { 
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.3);
+        }
+
+        /* تم إخفاء زر المشرف القديم */
+        .admin-toggle {
+            display: none !important;
+        }
+
+        .admin-panel {
+            background: #1a2634;
+            color: #f0f4fa;
+            padding: 25px 20px;
+            border-radius: 24px;
+            margin-top: 20px;
+            display: none;
+            text-align: right;
+            border: 1px solid #3a4a5e;
+        }
+        .admin-panel input { 
+            background: #2d3a4b; 
+            border-color: #4a5a6e; 
+            color: white; 
+            padding-right: 20px;
+        }
+        .admin-panel input::placeholder { color: #8899aa; }
+        #generated-code-display {
+            background: #0f1a24;
+            padding: 15px;
+            border-radius: 16px;
+            margin-top: 15px;
+            font-weight: bold;
+            word-break: break-all;
+            color: #7fdbff;
+            border: 1px solid #2d3a4b;
+            font-size: 18px;
+            letter-spacing: 1px;
+        }
+        .hidden { display: none !important; }
+
+        /* اختيار المستوى */
+        .level-select {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin: 20px 0;
+        }
+        .level-card {
+            background: #ffffff;
+            border: 2px solid #eef3f9;
+            border-radius: 20px;
+            padding: 20px 18px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+        }
+        .level-card:hover { 
+            border-color: #2d7aff; 
+            background: #f4f9ff; 
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 12px 25px rgba(45, 122, 255, 0.15);
+        }
+        .level-card h3 { margin: 0; color: #1a2634; font-weight: 800; }
+        .level-card h3 i { margin-left: 12px; color: #2d7aff; }
+        .level-card p { margin: 8px 0 0; color: #5e6f88; font-size: 14px; font-weight: 500; }
+
+        /* صفحة الأسئلة */
+        .question-box { text-align: right; }
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            background: #f8faff;
+            padding: 12px 18px;
+            border-radius: 16px;
+            border: 1px solid #eef3f9;
+        }
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background: #e2e9f2;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #2d7aff, #6ba6ff);
+            border-radius: 10px;
+            transition: width 0.4s ease;
+        }
+        .options label {
+            display: flex;
+            align-items: center;
+            background: #f8fafc;
+            padding: 16px 20px;
+            margin: 10px 0;
+            border-radius: 16px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: 0.2s;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .options label:hover { 
+            background: #eef3f9; 
+            border-color: #b8c9e0;
+        }
+        .options input[type="radio"] { 
+            margin-left: 15px; 
+            transform: scale(1.3); 
+            accent-color: #2d7aff;
+        }
+        .result-box { padding: 20px 0; }
+        .big-score { 
+            font-size: 64px; 
+            font-weight: 900; 
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .result-msg { font-size: 22px; font-weight: 700; color: #1a2634; margin-top: 10px; }
+        
+        .wrong-answers {
+            text-align: right;
+            margin-top: 20px;
+            background: #fef6f6;
+            padding: 18px 20px;
+            border-radius: 20px;
+            border-right: 6px solid #e74c3c;
+        }
+        .wrong-item {
+            border-bottom: 1px solid #f0e0e0;
+            padding: 15px 0;
+        }
+        .wrong-item:last-child { border-bottom: none; }
+        .wrong-item .q-text { font-weight: 700; font-size: 16px; color: #2c3e50; }
+        .wrong-item .correct-answer { color: #27ae60; font-weight: 700; margin-top: 5px; }
+        .wrong-item .explanation { 
+            color: #34495e; 
+            background: #f0f8f0; 
+            padding: 12px 15px; 
+            border-radius: 12px; 
+            margin-top: 10px; 
+            font-size: 14px; 
+            border-right: 4px solid #27ae60;
+            line-height: 1.7;
+        }
+        .wrong-item .wrong-answer-user { color: #e74c3c; font-weight: 600; }
+
+        .footer {
+            margin-top: 30px;
+            padding-top: 18px;
+            border-top: 2px solid #e2e9f2;
+            font-size: 13px;
+            color: #99aabb;
+            text-align: center;
+            font-weight: 600;
+        }
+        .footer span { color: #2d7aff; }
+        .footer i { margin: 0 6px; }
+
+        /* الأيقونات الاحترافية */
+        .icon-big { font-size: 24px; margin-left: 12px; }
+        .badge-level {
+            background: #2d7aff;
+            color: #fff;
+            padding: 4px 18px;
+            border-radius: 60px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="app">
+
+    <!-- 1. التفعيل والدفع -->
+    <div id="activation-section">
+        <!-- تم إضافة id="mainTitle" للعنوان لتفعيل الضغط المزدوج -->
+        <h2 id="mainTitle"><i class="fas fa-language icon-big"></i> اختبار الفرنسية</h2>
+        <p class="sub"><i class="fas fa-graduation-cap"></i> قياس المستوى من A1 إلى C2</p>
+        
+        <div class="price-tag">
+            <i class="fas fa-dollar-sign"></i> 1 دولار (تحويل على 01211662779)
+        </div>
+        <p style="font-size: 14px; color: #5e6f88; font-weight: 500;"><i class="fas fa-info-circle"></i> بعد التحويل، تواصل واتساب ليصلك كود التفعيل</p>
+        
+        <a class="whatsapp-btn" href="https://wa.me/201211662779?text=مرحباً، لقد قمت بالتحويل 1 دولار، برجاء ارسال كود التفعيل." target="_blank">
+            <i class="fab fa-whatsapp"></i> تأكيد الدفع عبر واتساب
+        </a>
+        
+        <hr>
+        
+        <h3><i class="fas fa-key"></i> أدخل كود التفعيل</h3>
+        <div class="input-group">
+            <i class="fas fa-lock"></i>
+            <input type="text" id="activation-code" placeholder="مثال: TEST-7X3K">
+        </div>
+        <button class="btn btn-success" onclick="verifyCode()"><i class="fas fa-check-circle"></i> تفعيل واختيار المستوى</button>
+        
+        <!-- تم إخفاء زر المشرف القديم باستخدام CSS -->
+        <div class="admin-toggle" onclick="toggleAdmin()">
+            <i class="fas fa-user-cog"></i> لوحة تحكم المشرف
+        </div>
+    </div>
+
+    <!-- 2. لوحة الإدارة (مخفية، تظهر بالضغط المزدوج على العنوان) -->
+    <div id="admin-panel" class="admin-panel">
+        <h4 style="margin-top:0; text-align:center; color:#fff;"><i class="fas fa-shield-alt"></i> المشرف</h4>
+        <!-- تم إزالة حقل إدخال كلمة المرور من هنا، لأن المصادقة تتم عبر النافذة المنبثقة -->
+        <button class="btn" style="background:linear-gradient(135deg,#f39c12,#d68910); box-shadow:0 8px 20px rgba(243,156,18,0.3);" onclick="generateNewCode()">
+            <i class="fas fa-plus-circle"></i> توليد كود جديد
+        </button>
+        <div id="generated-code-display"><i class="fas fa-code"></i> الكود سيظهر هنا</div>
+    </div>
+
+    <!-- 3. اختيار المستوى -->
+    <div id="level-section" class="hidden">
+        <h2><i class="fas fa-bullseye icon-big"></i> اختر مستواك</h2>
+        <p class="sub">كل مستوى يحتوي على 20 سؤالاً لقياس قدراتك</p>
+        <div class="level-select">
+            <div class="level-card" onclick="startLevel('easy')">
+                <h3><i class="fas fa-seedling"></i> مبتدئ (A1-A2)</h3>
+                <p>مفردات أساسية، تعريف بالنفس، الأزمنة البسيطة</p>
+            </div>
+            <div class="level-card" onclick="startLevel('medium')">
+                <h3><i class="fas fa-bolt"></i> متوسط (B1-B2)</h3>
+                <p>قواعد متوسطة، أزمنة مركبة، تعبير عن الرأي</p>
+            </div>
+            <div class="level-card" onclick="startLevel('hard')">
+                <h3><i class="fas fa-fire"></i> متقدم (C1-C2)</h3>
+                <p>تفاصيل دقيقة، أدب، تعابير اصطلاحية، تراكيب معقدة</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. الأسئلة -->
+    <div id="quiz-section" class="question-box hidden">
+        <div class="question-header">
+            <span id="q-counter" style="font-weight:800;"><i class="far fa-question-circle"></i> 1 / 20</span>
+            <span id="level-name" class="badge-level">مبتدئ</span>
+        </div>
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+        <h3 id="q-title" style="margin-bottom:20px; font-size:20px;">السؤال هنا</h3>
+        <div id="options-container" class="options"></div>
+        <button class="btn" onclick="submitAnswer()"><i class="fas fa-arrow-left"></i> إرسال الإجابة</button>
+    </div>
+
+    <!-- 5. النتيجة -->
+    <div id="result-section" class="hidden result-box">
+        <h2><i class="fas fa-flag-checkered icon-big"></i> انتهى الاختبار!</h2>
+        <div class="big-score" id="final-score">0 / 20</div>
+        <div class="result-msg" id="result-message"></div>
+        <div id="wrong-details" class="wrong-answers hidden"></div>
+        <button class="btn" onclick="location.reload()" style="margin-top:20px;"><i class="fas fa-redo-alt"></i> العودة للبداية</button>
+    </div>
+
+    <!-- تذييل حقوق الملكية -->
+    <div class="footer">
+        <i class="far fa-copyright"></i> 2026 <span>Hany Elshahat</span> <i class="fas fa-circle" style="font-size:4px; vertical-align:middle; margin:0 8px;"></i> جميع الحقوق محفوظة
+    </div>
+
+</div>
+
+<script>
+    // ================================================================
+    // حقوق الملكية © 2026 Hany Elshahat. جميع الحقوق محفوظة.
+    // ================================================================
+
+    // ================================================================
+    // التشفير والأمان (SHA-256 مع ملح)
+    // ================================================================
+    const SALT = "Hany_French_2026_S3cr3t!";
+    
+    // كلمة المرور الجديدة حسب طلبك: hanysaad3112004quiz
+    const PASSWORD_HASH = CryptoJS.SHA256("hanysaad3112004quiz" + SALT).toString(CryptoJS.enc.Hex);
+
+    // متغير لتتبع جلسة المشرف
+    let adminSession = false;
+
+    // ================================================================
+    // أسئلة اختبار اللغة الفرنسية - مع شرح بالعربية لكل سؤال
+    // ================================================================
+    const LEVELS = {
+        easy: {
+            name: 'مبتدئ (A1-A2)',
+            questions: [
+                { q: "Quel est le mot correct pour dire 'Bonjour' en français ?", opts: ["Salut", "Bonjour", "Au revoir", "Merci"], ans: 1, exp: "الإجابة الصحيحة هي 'Bonjour' لأنها التحية الرسمية في أي وقت. 'Salut' تُستخدم فقط مع الأصدقاء، و'Au revoir' تعني وداعاً، و'Merci' تعني شكراً." },
+                { q: "Comment dit-on 'merci' en français ?", opts: ["S'il vous plaît", "Merci", "Pardon", "Excusez-moi"], ans: 1, exp: "الكلمة الصحيحة هي 'Merci'. 'S'il vous plaît' تعني من فضلك، و'Pardon' و'Excusez-moi' تعنيان عفواً أو آسف." },
+                { q: "Quelle est la forme correcte du verbe 'être' au présent pour 'je' ?", opts: ["suis", "es", "est", "sont"], ans: 0, exp: "الفعل 'être' مع الضمير 'je' يُصبح 'suis'. 'es' مع 'tu'، 'est' مع 'il/elle'، و'sont' مع 'ils/elles'." },
+                { q: "Le féminin de 'grand' est :", opts: ["grande", "grande", "grands", "grandes"], ans: 0, exp: "المؤنث لكلمة 'grand' هو 'grande' بإضافة حرف 'e' في النهاية. 'grands' و'grandes' للجمع." },
+                { q: "Comment dit-on 'la table' en anglais ?", opts: ["the chair", "the table", "the door", "the window"], ans: 1, exp: "ترجمة 'la table' هي 'the table'. 'the chair' تعني الكرسي، 'the door' الباب، و'the window' النافذة." },
+                { q: "Quel est le contraire de 'chaud' ?", opts: ["froid", "tiède", "glacé", "brûlant"], ans: 0, exp: "ضد 'chaud' (ساخن) هو 'froid' (بارد). 'tiède' فاتر، 'glacé' مثلج، و'brûlant' حارق جداً." },
+                { q: "Le pluriel de 'un livre' est :", opts: ["des livres", "des livre", "un livres", "les livre"], ans: 0, exp: "جمع 'un livre' هو 'des livres' مع إضافة 's' للاسم وأداة التنكير للجمع. الخيارات الأخرى بها أخطاء إملائية أو نحوية." },
+                { q: "Comment dit-on 'je m'appelle' en français ?", opts: ["I am called", "My name is", "Je m'appelle", "Me llamo"], ans: 2, exp: "العبارة الصحيحة هي 'Je m'appelle'. 'My name is' هي الترجمة للإنجليزية، و'Me llamo' للإسبانية." },
+                { q: "Quelle est la couleur du ciel ?", opts: ["rouge", "bleu", "vert", "jaune"], ans: 1, exp: "لون السماء عادةً هو 'bleu' (أزرق). 'rouge' أحمر، 'vert' أخضر، و'jaune' أصفر." },
+                { q: "Le verbe 'aller' au présent pour 'nous' :", opts: ["allons", "allez", "vont", "va"], ans: 0, exp: "مع 'nous' الفعل 'aller' يصبح 'allons'. 'allez' مع 'vous'، 'vont' مع 'ils'، و'va' مع 'il/elle'." },
+                { q: "Comment dit-on 's'il vous plaît' ?", opts: ["Please", "Thank you", "Sorry", "Excuse me"], ans: 0, exp: "ترجمة 's'il vous plaît' هي 'Please' (من فضلك). 'Thank you' شكراً، 'Sorry' آسف، و'Excuse me' عفواً." },
+                { q: "Quel est l'article indéfini masculin ?", opts: ["un", "une", "des", "le"], ans: 0, exp: "أداة التنكير للمذكر هي 'un'. 'une' للمؤنث، 'des' للجمع، و'le' أداة تعريف." },
+                { q: "Le contraire de 'petit' est :", opts: ["grand", "gros", "long", "haut"], ans: 0, exp: "ضد 'petit' (صغير) هو 'grand' (كبير). 'gros' سمين، 'long' طويل، و'haut' مرتفع/طويل القامة." },
+                { q: "Comment dit-on 'la maison' en anglais ?", opts: ["the house", "the home", "the building", "the flat"], ans: 0, exp: "ترجمة 'la maison' هي 'the house'. 'the home' تعني المنزل/البيت (المعنى المعنوي)، و'the flat' الشقة." },
+                { q: "Quelle est la forme correcte de 'avoir' pour 'tu' ?", opts: ["as", "ai", "a", "avons"], ans: 0, exp: "مع 'tu' الفعل 'avoir' يصبح 'as'. 'ai' مع 'je'، 'a' مع 'il/elle'، و'avons' مع 'nous'." },
+                { q: "Le féminin de 'joli' est :", opts: ["jolie", "joli", "jolies", "jolis"], ans: 0, exp: "المؤنث لـ 'joli' هو 'jolie' بإضافة 'e'. 'jolies' جمع مؤنث، و'jolis' جمع مذكر." },
+                { q: "Comment dit-on 'au revoir' ?", opts: ["Goodbye", "Hello", "Good morning", "Good evening"], ans: 0, exp: "ترجمة 'au revoir' هي 'Goodbye' (وداعاً). 'Hello' مرحباً، 'Good morning' صباح الخير، و'Good evening' مساء الخير." },
+                { q: "Quel est l'article défini féminin ?", opts: ["la", "le", "les", "l'"], ans: 0, exp: "أداة التعريف للمؤنث هي 'la'. 'le' للمذكر، 'les' للجمع، و'l\'' تُستخدم قبل حرف متحرك." },
+                { q: "Le verbe 'manger' au présent pour 'ils' :", opts: ["mangent", "mangeons", "manges", "mange"], ans: 0, exp: "مع 'ils' الفعل 'manger' يصبح 'mangent'. 'mangeons' مع 'nous'، 'manges' مع 'tu'، و'mange' مع 'il/elle'." },
+                { q: "Comment dit-on 'l'eau' en anglais ?", opts: ["water", "milk", "juice", "soda"], ans: 0, exp: "ترجمة 'l'eau' هي 'water' (ماء). 'milk' حليب، 'juice' عصير، و'soda' صودا." }
+            ]
+        },
+        medium: {
+            name: 'متوسط (B1-B2)',
+            questions: [
+                { q: "Le passé composé de 'je vais' est :", opts: ["je suis allé", "j'ai allé", "je vais allé", "j'étais allé"], ans: 0, exp: "الفعل 'aller' في الماضي المركب يُصاغ بـ 'être' وليس 'avoir'، لذا الصحيح هو 'je suis allé'. 'j'ai allé' خطأ لأن 'aller' من أفعال الحركة التي تأخذ 'être'." },
+                { q: "Quel est l'imparfait de 'faire' pour 'nous' ?", opts: ["faisions", "faisiez", "faisaient", "faisait"], ans: 0, exp: "في زمن المضارع المستمر (l'imparfait)، 'nous faisions' هو الصحيح. 'faisiez' مع 'vous'، 'faisaient' مع 'ils'، و'faisait' مع 'il/elle'." },
+                { q: "La phrase correcte :", opts: ["Je lui ai donné le livre.", "Je ai donné lui le livre.", "Je lui ai donné le livre.", "J'ai lui donné le livre."], ans: 0, exp: "ترتيب الضمائر في الفرنسية: 'Je lui ai donné' (أنا أعطيته). 'Je ai' خطأ لأن يجب الاختصار إلى 'J'ai'، ووضع 'lui' بعد الفعل خطأ." },
+                { q: "Quel est le synonyme de 'rapide' ?", opts: ["vite", "lent", "petit", "grand"], ans: 0, exp: "مرادف 'rapide' (سريع) هو 'vite' (بسرعة). 'lent' بطيء، و'petit' صغير، و'grand' كبير." },
+                { q: "Le conditionnel présent de 'pouvoir' pour 'je' :", opts: ["je pourrais", "je pouvais", "je peux", "j'ai pu"], ans: 0, exp: "الشرط الحاضر لـ 'pouvoir' مع 'je' هو 'je pourrais'. 'je pouvais' للماضي المستمر، و'je peux' للمضارع." },
+                { q: "La forme correcte : 'Si j'avais de l'argent, je ______' :", opts: ["voyagerais", "voyageais", "voyagerai", "voyage"], ans: 0, exp: "في جملة الشرط (Si + imparfait, conditionnel présent)، الصحيح هو 'je voyagerais'. 'voyageais' للماضي و'voyagerai' للمستقبل." },
+                { q: "Le subjonctif présent de 'venir' pour 'que nous' :", opts: ["que nous venions", "que nous venons", "que nous viendrons", "que nous vinssions"], ans: 0, exp: "المضارع الشرطي لـ 'venir' مع 'nous' هو 'que nous venions'. 'venons' للمضارع العادي، و'viendrons' للمستقبل." },
+                { q: "Quel est le contraire de 'optimiste' ?", opts: ["pessimiste", "réaliste", "idéaliste", "cynique"], ans: 0, exp: "ضد 'optimiste' (متفائل) هو 'pessimiste' (متشائم). 'réaliste' واقعي، و'idéaliste' مثالي." },
+                { q: "La voix passive : 'Le chat mange la souris' devient :", opts: ["La souris est mangée par le chat.", "La souris mange le chat.", "Le chat est mangé par la souris.", "La souris était mangée."], ans: 0, exp: "تحويل الجملة للمبني للمجهول: الفاعل يصبح مفعولاً به والعكس. 'La souris est mangée par le chat' هو الصحيح مع مطابقة الفعل مع المفعول الجديد." },
+                { q: "Le futur simple de 'être' pour 'ils' :", opts: ["seront", "seraient", "sont", "étaient"], ans: 0, exp: "المستقبل البسيط لـ 'être' مع 'ils' هو 'seront'. 'seraient' شرط، و'sont' مضارع، و'étaient' ماضٍ." },
+                { q: "Quelle est la bonne traduction : 'I am going to the cinema' ?", opts: ["Je vais au cinéma.", "Je vais à le cinéma.", "Je vais du cinéma.", "Je vais en cinéma."], ans: 0, exp: "التعبير الصحيح هو 'Je vais au cinéma' (أداة الجر + le = au). 'à le' خطأ، و'dul و'en' غير مناسبتين للمكان." },
+                { q: "Le gérondif de 'manger' :", opts: ["en mangeant", "mangeant", "ayant mangé", "manger"], ans: 0, exp: "صيغة المصدر الحالي (Gérondif) هي 'en mangeant'. 'mangeant' هو اسم الفاعل، و'ayant mangé' للماضي." },
+                { q: "La phrase avec 'dont' correcte :", opts: ["C'est le livre dont j'ai besoin.", "C'est le livre dont j'ai besoin.", "C'est le livre que j'ai besoin.", "C'est le livre qui j'ai besoin."], ans: 0, exp: "'dont' يُستخدم لتعويض 'de' + شيء. هنا 'avoir besoin de' لذا الصحيح هو 'dont'. 'que' و'qui' لا يصحان هنا." },
+                { q: "Le pronom relatif 'lequel' au féminin :", opts: ["laquelle", "lequel", "lesquels", "lesquelles"], ans: 0, exp: "المؤنث المفرد لـ 'lequel' هو 'laquelle'. 'lequel' للمذكر، و'lesquels' و'lesquelles' للجمع." },
+                { q: "Le subjonctif passé de 'finir' pour 'que je' :", opts: ["que j'aie fini", "que j'ai fini", "que je finisse", "que j'eus fini"], ans: 0, exp: "الماضي الشرطي لـ 'finir' هو 'que j'aie fini' (المضارع الشرطي للفعل المساعد + الماضي التام). 'que j'ai fini' للماضي المركب العادي." },
+                { q: "La concordance des temps : 'Il a dit qu'il ______' :", opts: ["viendrait", "viendra", "vient", "était venu"], ans: 0, exp: "في تناسق الأزمنة (الماضي + المستقبل في الماضي)، نستخدم الشرط (conditionnel) 'viendrait'." },
+                { q: "Quel est le nom de la figure de style : 'Les sanglots longs des violons' ?", opts: ["allitération", "assonance", "métaphore", "comparaison"], ans: 0, exp: "تكرار صوت الحرف 'l' و 's' هو 'allitération'. 'assonance' تكرار حروف العلة، و'métaphore' استعارة." },
+                { q: "Le verbe 'devoir' au conditionnel passé pour 'je' :", opts: ["j'aurais dû", "j'avais dû", "j'ai dû", "je devrais"], ans: 0, exp: "الشرط الماضي لـ 'devoir' هو 'j'aurais dû' (المضارع الشرطي للفعل المساعد + الماضي التام). 'j'avais dû' للماضي الأبعد." },
+                { q: "La bonne préposition : 'Je suis né ______ 1990' :", opts: ["en", "à", "de", "dans"], ans: 0, exp: "مع السنوات نستخدم 'en'. 'à' للمدن، و'de' للملكية، و'dans' لفترة زمنية داخلية." },
+                { q: "L'expression 'mettre la charrue avant les bœufs' signifie :", opts: ["précipiter les choses", "bien organiser", "travailler dur", "se reposer"], ans: 0, exp: "هذا التعبير يعني 'وضع العربة أمام الحصان' أي التسرع وقلب الأمور. 'précipiter les choses' هي الترجمة الصحيحة." }
+            ]
+        },
+        hard: {
+            name: 'متقدم (C1-C2)',
+            questions: [
+                { q: "Le plus-que-parfait du subjonctif de 'savoir' pour 'que je' :", opts: ["que j'eusse su", "que j'aie su", "que je sache", "que je savais"], ans: 0, exp: "الماضي الأبعد الشرطي لـ 'savoir' هو 'que j'eusse su' (فعل مساعد في الشرطي الناقص + الماضي التام). 'que j'aie su' للماضي الشرطي العادي." },
+                { q: "La figure de style dans 'Le soleil pleure' est :", opts: ["personnification", "métaphore", "allégorie", "antithèse"], ans: 0, exp: "إسناد صفة بشرية (البكاء) للشمس هو 'personnification' (تشخيص). 'métaphore' استعارة بدون أداة، و'allégorie' رمز." },
+                { q: "Quel est le registre de langue du mot 'bagnole' ?", opts: ["familier", "soutenu", "courant", "vulgaire"], ans: 0, exp: "'bagnole' تعني سيارة وهي من المستوى 'familier' (عامي). 'soutenu' فصيح، و'courant' متوسط، و'vulgaire' مبتذل." },
+                { q: "La forme pronominale correcte : 'Ils ______ les mains' (se laver) :", opts: ["se sont lavés", "se sont lavé", "ont se lavé", "se sont laver"], ans: 0, exp: "في الأفعال المنعكسة في الماضي المركب، يتفق اسم المفعول مع الفاعل إذا كان المفعول به هو الضمير المنعكس (هنا 'se' تعني 'leurs mains')، لذا 'lavés' مع 'ils'." },
+                { q: "Le subjonctif imparfait de 'venir' pour 'que je' :", opts: ["que je vinsse", "que je vienne", "que je venais", "que je sois venu"], ans: 0, exp: "المضارع الشرطي الناقص (الموجود في الأدب) لـ 'venir' هو 'que je vinsse'. هذا الزمن نادر الاستخدام اليومي لكنه موجود في المستويات المتقدمة." },
+                { q: "Quel est le synonyme de 'mélancolie' ?", opts: ["tristesse", "joie", "colère", "peur"], ans: 0, exp: "مرادف 'mélancolie' (كآبة) هو 'tristesse' (حزن). 'joie' فرح، و'colère' غضب، و'peur' خوف." },
+                { q: "La phrase avec un gérondif passé :", opts: ["Ayant fini, il sortit.", "En finissant, il sortit.", "Il sortit après avoir fini.", "Il sortit en finissant."], ans: 0, exp: "صيغة 'Ayant fini' هي الماضي التام (Participe passé composé) وتُستخدم كـ 'Gérondif passé' للدلالة على حدث مكتمل قبل الفعل الرئيسي." },
+                { q: "Le conditionnel passé 2e forme de 'aller' pour 'je' :", opts: ["je fusse allé", "je serais allé", "je suis allé", "j'étais allé"], ans: 0, exp: "الصيغة الثانية للشرط الماضي (النادرة) هي 'je fusse allé' (الماضي البسيط الشرطي). 'je serais allé' هي الصيغة الأولى الشائعة." },
+                { q: "Quelle est la fonction de 'dont' dans 'La raison dont il parle' ?", opts: ["complément du nom", "complément d'objet", "sujet", "attribut"], ans: 0, exp: "هنا 'dont' تحل محل 'de + nom'، وهي مكمل للاسم (complément du nom) لأنها تعود على 'la raison'." },
+                { q: "La construction correcte : 'Il est important que vous ______' :", opts: ["soyez", "êtes", "étiez", "serez"], ans: 0, exp: "بعد العبارات التي تعبر عن الأهمية (Il est important que) نستخدم الفعل في صيغة الشرط (Subjonctif)، لذا 'soyez' هو الصحيح." },
+                { q: "Le nom de la figure : 'Plus ça change, plus c'est la même chose' :", opts: ["paradoxe", "oxymore", "litote", "hyperbole"], ans: 0, exp: "هذه الجملة تعبر عن تناقض ظاهري وهو 'Paradoxe' (مفارقة). 'oxymore' هو جمع نقيضين في كلمة واحدة، و'litote' التبليغ بالإقلال." },
+                { q: "La valeur du subjonctif dans 'Je cherche un livre qui soit intéressant' :", opts: ["souhait", "doute", "but", "cause"], ans: 0, exp: "هنا الشرط يعبر عن 'souhait' (رغبة) أو بحث عن شيء غير محقق. إذا كان الكتاب محدداً نستخدم 'est'، لكن غير محدد فنستخدم 'soit'." },
+                { q: "L'expression 'faire la grasse matinée' signifie :", opts: ["se lever tard", "manger beaucoup", "dormir peu", "être paresseux"], ans: 0, exp: "هذا التعبير يعني 'النوم حتى وقت متأخر' أي 'se lever tard'. لا علاقة له بالأكل أو الكسل العام." },
+                { q: "Le type de phrase : 'Viens ici !' est :", opts: ["impérative", "déclarative", "interrogative", "exclamative"], ans: 0, exp: "الجملة التي تأمر أو تطلب هي 'impérative' (أمرية). 'déclarative' خبرية، و'interrogative' استفهامية." },
+                { q: "La transformation passive avec un verbe à l'infinitif : 'Il faut finir ce travail' →", opts: ["Il faut que ce travail soit fini.", "Il faut fini ce travail.", "Ce travail est à finir.", "Il fallait finir."], ans: 0, exp: "لتحويل الجملة إلى مبني للمجهول مع 'il faut'، نستخدم 'Il faut que' + الشرط. الصحيح هو 'Il faut que ce travail soit fini'." },
+                { q: "Le nom de la rime dans 'éternité / clarté' :", opts: ["riche", "suffisante", "pauvre", "assonance"], ans: 0, exp: "هذه القافية تسمى 'riche' (غنية) لأن آخر ثلاثة حروف متطابقة ('té'). 'suffisante' آخر حرفين، و'pauvre' حرف واحد." },
+                { q: "L'emploi du subjonctif après 'bien que' exprime :", opts: ["concession", "cause", "conséquence", "condition"], ans: 0, exp: "'bien que' تعني 'على الرغم من' وتُستخدم للتعبير عن 'concession' (الاستدراك أو التنازل)." },
+                { q: "Le pronom 'en' remplace :", opts: ["un complément introduit par 'de'", "un COD", "un sujet", "un attribut"], ans: 0, exp: "الضمير 'en' يحل محل 'de + اسم' (مفعول به غير مباشر أو مكمل). لا يحل محل COD (الذي يحل محله 'le/la/les')." },
+                { q: "La phrase correcte au discours indirect : 'Il m'a dit : \"Je viendrai demain\"' →", opts: ["Il m'a dit qu'il viendrait le lendemain.", "Il m'a dit qu'il viendra demain.", "Il m'a dit qu'il venait demain.", "Il m'a dit qu'il est venu."], ans: 0, exp: "في الخطاب غير المباشر، نغير الزمن (futur simple -> conditionnel) ونغير الظرف (demain -> le lendemain). الصحيح هو 'qu'il viendrait le lendemain'." },
+                { q: "Quel est le plus haut niveau du CECRL ?", opts: ["C2", "C1", "B2", "A1"], ans: 0, exp: "أعلى مستوى في الإطار الأوروبي المرجعي الموحد للغات (CECRL) هو 'C2' (الإتقان التام). يليه C1 ثم B2 ثم A1." }
+            ]
+        }
+    };
+
+    // ================================================================
+    // المنطق الأساسي للتطبيق
+    // ================================================================
+    let currentLevelKey = '';
+    let currentQuestions = [];
+    let currentIndex = 0;
+    let score = 0;
+    let userAnswers = [];
+
+    function showSection(id) {
+        document.getElementById('activation-section').classList.add('hidden');
+        document.getElementById('level-section').classList.add('hidden');
+        document.getElementById('quiz-section').classList.add('hidden');
+        document.getElementById('result-section').classList.add('hidden');
+        document.getElementById(id).classList.remove('hidden');
+    }
+
+    function renderQuestion(index) {
+        const q = currentQuestions[index];
+        document.getElementById('q-title').textContent = q.q;
+        document.getElementById('q-counter').innerHTML = `<i class="far fa-question-circle"></i> ${index+1} / 20`;
+        document.getElementById('level-name').textContent = LEVELS[currentLevelKey].name;
+        
+        // تحديث شريط التقدم
+        const progress = ((index) / 20) * 100;
+        document.getElementById('progress-fill').style.width = progress + '%';
+
+        const container = document.getElementById('options-container');
+        container.innerHTML = '';
+        q.opts.forEach((opt, i) => {
+            const label = document.createElement('label');
+            label.innerHTML = `<input type="radio" name="q" value="${i}"> ${opt}`;
+            container.appendChild(label);
+        });
+    }
+
+    function startLevel(levelKey) {
+        currentLevelKey = levelKey;
+        currentQuestions = LEVELS[levelKey].questions;
+        currentIndex = 0;
+        score = 0;
+        userAnswers = [];
+        showSection('quiz-section');
+        renderQuestion(0);
+    }
+
+    function submitAnswer() {
+        const selected = document.querySelector('input[name="q"]:checked');
+        if (!selected) {
+            alert('الرجاء اختيار إجابة قبل المتابعة.');
+            return;
+        }
+        const userChoice = parseInt(selected.value);
+        const correct = currentQuestions[currentIndex].ans;
+        userAnswers.push({ user: userChoice, correct: correct });
+        if (userChoice === correct) score++;
+        
+        currentIndex++;
+        if (currentIndex < 20) {
+            renderQuestion(currentIndex);
+        } else {
+            // إكمال شريط التقدم
+            document.getElementById('progress-fill').style.width = '100%';
+            finishQuiz();
+        }
+    }
+
+    function finishQuiz() {
+        showSection('result-section');
+        document.getElementById('final-score').textContent = `${score} / 20`;
+        
+        let msg = '';
+        const pct = (score / 20) * 100;
+        if (pct >= 90) msg = '🏆 مستوى C1/C2 - متقدم جداً! أبارك لك!';
+        else if (pct >= 70) msg = '🌟 مستوى B2 - جيد جداً! أنت في الطريق الصحيح.';
+        else if (pct >= 50) msg = '📖 مستوى B1 - متوسط، واصل التقدم!';
+        else if (pct >= 30) msg = '📘 مستوى A2 - مبتدئ متقدم، استمر بالممارسة!';
+        else msg = '📗 مستوى A1 - مبتدئ، لا بأس، الممارسة تصنع المعجزات!';
+        document.getElementById('result-message').textContent = msg;
+
+        const wrongDiv = document.getElementById('wrong-details');
+        const wrongs = userAnswers.filter((a, idx) => a.user !== a.correct);
+        
+        if (wrongs.length > 0) {
+            wrongDiv.classList.remove('hidden');
+            let html = `<p style="font-weight:800; color:#c0392b; font-size:18px; margin-bottom:15px;">
+                        <i class="fas fa-times-circle"></i> الأخطاء (${wrongs.length} سؤال):
+                       </p>`;
+            wrongs.forEach((w) => {
+                const qIndex = userAnswers.indexOf(w);
+                const qData = currentQuestions[qIndex];
+                const userAnswerText = qData.opts[w.user];
+                const correctText = qData.opts[w.correct];
+                html += `<div class="wrong-item">
+                            <div class="q-text"><i class="fas fa-question-circle" style="color:#2d7aff;"></i> ${qData.q}</div>
+                            <div class="wrong-answer-user"><i class="fas fa-user-times" style="color:#e74c3c;"></i> إجابتك: ${userAnswerText}</div>
+                            <div class="correct-answer"><i class="fas fa-check-circle" style="color:#27ae60;"></i> الإجابة الصحيحة: ${correctText}</div>
+                            <div class="explanation"><i class="fas fa-lightbulb" style="color:#f1c40f;"></i> ${qData.exp}</div>
+                        </div>`;
+            });
+            wrongDiv.innerHTML = html;
+        } else {
+            wrongDiv.classList.add('hidden');
+        }
+    }
+
+    // ================================================================
+    // نظام التفعيل والإدارة المشفر (SHA-256) مع إخفاء الزر + الضغط المزدوج
+    // ================================================================
+
+    // دالة فتح/إغلاق لوحة المشرف (تُستدعى بالضغط المزدوج على العنوان)
+    function toggleAdmin() {
+        const panel = document.getElementById('admin-panel');
+        
+        // إذا كانت اللوحة مفتوحة، نغلقها وننهي الجلسة
+        if (panel.style.display === 'block') {
+            panel.style.display = 'none';
+            adminSession = false;
+            return;
+        }
+
+        // طلب كلمة المرور عبر نافذة منبثقة
+        const pass = prompt("🔑 أدخل كلمة مرور المشرف:");
+        if (pass === null) return; // إذا ضغط إلغاء
+        
+        const inputHash = CryptoJS.SHA256(pass + SALT).toString(CryptoJS.enc.Hex);
+        if (inputHash === PASSWORD_HASH) {
+            adminSession = true;
+            panel.style.display = 'block';
+            document.getElementById('generated-code-display').innerHTML = '<i class="fas fa-code"></i> الكود سيظهر هنا';
+        } else {
+            alert('❌ كلمة المرور غير صحيحة!');
+        }
+    }
+
+    // توليد كود جديد (مع التحقق من الجلسة)
+    function generateNewCode() {
+        if (!adminSession) {
+            alert('⚠️ يرجى تسجيل الدخول إلى لوحة المشرف أولاً (اضغط مرتين على عنوان الاختبار).');
+            return;
+        }
+
+        const rand = Math.random().toString(36).substring(2, 7).toUpperCase();
+        const newCode = `TEST-${rand}`;
+        
+        const codeHash = CryptoJS.SHA256(newCode + SALT).toString(CryptoJS.enc.Hex);
+        let validHashes = JSON.parse(localStorage.getItem('valid_hashes') || '[]');
+        validHashes.push(codeHash);
+        localStorage.setItem('valid_hashes', JSON.stringify(validHashes));
+        
+        document.getElementById('generated-code-display').innerHTML = 
+            `<i class="fas fa-check-circle" style="color:#2ecc71;"></i> ✅ الكود الجديد: <strong>${newCode}</strong>`;
+    }
+
+    // التحقق من كود التفعيل (نفس النظام مع التشفير)
+    function verifyCode() {
+        const input = document.getElementById('activation-code').value.trim();
+        if (!input) { alert('أدخل الكود أولاً'); return; }
+
+        const inputHash = CryptoJS.SHA256(input + SALT).toString(CryptoJS.enc.Hex);
+        
+        let validHashes = JSON.parse(localStorage.getItem('valid_hashes') || '[]');
+        const defaultCode = "HANY-2026";
+        const defaultHash = CryptoJS.SHA256(defaultCode + SALT).toString(CryptoJS.enc.Hex);
+        if (!validHashes.includes(defaultHash)) {
+            validHashes.push(defaultHash);
+            localStorage.setItem('valid_hashes', JSON.stringify(validHashes));
+        }
+
+        let usedHashes = JSON.parse(localStorage.getItem('used_hashes') || '[]');
+
+        if (usedHashes.includes(inputHash)) {
+            alert('⛔ هذا الكود تم استخدامه مسبقاً!');
+            return;
+        }
+
+        if (validHashes.includes(inputHash)) {
+            usedHashes.push(inputHash);
+            localStorage.setItem('used_hashes', JSON.stringify(usedHashes));
+            document.getElementById('activation-section').classList.add('hidden');
+            showSection('level-section');
+            alert('✅ تم التفعيل بنجاح! اختر مستواك وابدأ.');
+        } else {
+            alert('❌ كود غير صحيح. تأكد من الدفع وتواصل معنا.');
+        }
+    }
+
+    // بدء التشغيل وإعداد مستمع الضغط المزدوج على العنوان
+    window.onload = function() {
+        // تهيئة الهاش الافتراضي
+        const defaultCode = "HANY-2026";
+        const defaultHash = CryptoJS.SHA256(defaultCode + SALT).toString(CryptoJS.enc.Hex);
+        let validHashes = JSON.parse(localStorage.getItem('valid_hashes') || '[]');
+        if (!validHashes.includes(defaultHash)) {
+            validHashes.push(defaultHash);
+            localStorage.setItem('valid_hashes', JSON.stringify(validHashes));
+        }
+        
+        // إضافة مستمع الضغط المزدوج على العنوان
+        const title = document.getElementById('mainTitle');
+        if (title) {
+            title.addEventListener('dblclick', function(e) {
+                toggleAdmin();
+            });
+        }
+        
+        showSection('activation-section');
+    };
+</script>
+
+</body>
+</html>
